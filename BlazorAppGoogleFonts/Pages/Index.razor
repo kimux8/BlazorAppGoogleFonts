@@ -1,0 +1,60 @@
+﻿@page "/"
+
+<input type="text" width="1000" @bind-value="str" @bind-value:event="oninput" />
+
+<div class="row">
+    <div class="col-5">
+        <p>font=@currentfont</p>
+        @foreach (var f in fonts)
+        {
+            <div class="row" @onmouseover="@(_ => currentfont = f)">
+                <div class="col-2 align-middle">
+                    <h6 style="font-family:@f">@f<br />フォント　</h6>
+                </div>
+                <div class="col-auto align-middle">
+                    <h1 style="font-family:@f">@str</h1>
+                </div>
+            </div>
+
+        }
+    </div>
+    <div class="col-7">
+        <p>font-weight</p>
+        @if (currentfont != "")
+        {
+            @foreach (var w in weights)
+            {
+                <h1 style="font-weight:@w;font-family:@currentfont">[@w]@str</h1>
+            }
+        }
+    </div>
+</div>
+
+@code{
+    string str = "";
+
+    static string[] fonts = new[] { "Noto Sans JP", "Sawarabi Mincho", "Noto Serif JP", "M PLUS 1p", "M PLUS Rounded 1c", "Sawarabi Gothic", "Kosugi Maru", "Kosugi", "Hannari", "Kokoro", "Nikukyu", "Nico Moji" };
+
+    static string[] weights = new[] { "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "regular", "bold" };
+
+    string currentfont;
+
+    protected override void OnInitialized()
+    {
+        str = "おはようございます";
+
+        var jst = DateTime.Now.AddHours(9);
+
+        if (jst.Hour >= 12 && jst.Hour <= 17)
+        {
+            str = "こんにちは";
+        }
+        else if (jst.Hour > 17)
+        {
+            str = "こんばんは";
+        }
+
+    }
+
+
+}
